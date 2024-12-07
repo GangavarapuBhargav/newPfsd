@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Learning Quiz</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #quiz-results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>French Learning Quiz</h1>
+        <section id="quiz-section">
+            <div id="quiz-container" class="text-center">
+                <button id="start-quiz" class="btn btn-primary">Start Quiz</button>
+            </div>
+            <div id="quiz-results" class="text-center"></div>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById("start-quiz").addEventListener("click", () => {
+            const quizContainer = document.getElementById("quiz-container");
+            const resultsContainer = document.getElementById("quiz-results");
+            quizContainer.innerHTML = "<p>Loading quiz...</p>";
+            resultsContainer.innerHTML = "";
+
+            // Hardcoded French-to-English quiz questions
+            const questions = [
+                { question: "Bonjour", options: ["Hello", "Goodbye", "Please", "Thank you"], answer: "Hello" },
+                { question: "Merci", options: ["Sorry", "Please", "Thank you", "Yes"], answer: "Thank you" },
+                { question: "Au revoir", options: ["Hello", "Goodbye", "See you later", "No"], answer: "Goodbye" },
+                { question: "S'il vous plaît", options: ["Excuse me", "Please", "No problem", "Welcome"], answer: "Please" },
+                { question: "Oui", options: ["No", "Yes", "Maybe", "Thank you"], answer: "Yes" }
+            ];
+
+            let currentQuestion = 0;
+            let score = 0;
+
+            function loadQuestion() {
+                if (currentQuestion >= questions.length) {
+                    quizContainer.innerHTML = "";
+                    resultsContainer.innerHTML = `
+                        <h3>Quiz Complete!</h3>
+                        <p>Your Score: ${score}/${questions.length}</p>
+                        <p>Grade: ${Math.round((score / questions.length) * 100)}%</p>`;
+                    return;
+                }
+
+                const questionData = questions[currentQuestion];
+                quizContainer.innerHTML = `
+                    <h4>What does "<strong>${questionData.question}</strong>" mean in English?</h4>
+                    <div>
+                        ${questionData.options
+                            .map(option => `<button class="quiz-option btn btn-outline-primary m-2">${option}</button>`)
+                            .join("")}
+                    </div>
+                `;
+
+                document.querySelectorAll(".quiz-option").forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        if (btn.textContent === questionData.answer) {
+                            score++;
+                            alert("Correct!");
+                        } else {
+                            alert(`Wrong! The correct answer is: ${questionData.answer}`);
+                        }
+                        currentQuestion++;
+                        loadQuestion();
+                    });
+                });
+            }
+
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>
