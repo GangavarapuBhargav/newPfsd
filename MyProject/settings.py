@@ -26,6 +26,10 @@ SECRET_KEY = 'django-insecure-$eia@4(x$2(j23zp^h$3j23=2_)s02rzf9i9p@_8b1sm!)jgr1
 DEBUG = True
 
 ALLOWED_HOSTS = ['languagelearning-cc1o.onrender.com']
+CSRF_TRUSTED_ORIGINS = [
+    'https://languagelearning-cc1o.onrender.com',  # Replace with your deployed URL
+]
+
 
 
 # Application definition
